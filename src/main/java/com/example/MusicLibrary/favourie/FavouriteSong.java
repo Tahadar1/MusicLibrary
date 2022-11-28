@@ -14,11 +14,11 @@ import java.util.List;
 @Table(name = "favourite_song")
 public class FavouriteSong {
     @Id
-    @SequenceGenerator(name = "favourite_sequence", sequenceName = "favourite_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "favourite_sequence")
     private Long Id;
 
     private String filename;
+
+    private Boolean isFavourite;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "has_song",
@@ -37,6 +37,7 @@ public class FavouriteSong {
         this.filename = filename;
     }
 
+
     public FavouriteSong(Long id, String filename) {
         Id = id;
         this.filename = filename;
@@ -45,5 +46,20 @@ public class FavouriteSong {
     public FavouriteSong(String filename, List<Music> music) {
         this.filename = filename;
         this.music = music;
+    }
+
+    public FavouriteSong(Boolean isFavourite) {
+        this.isFavourite = isFavourite;
+    }
+
+    public FavouriteSong(Long id, String filename, Boolean isFavourite) {
+        Id = id;
+        this.filename = filename;
+        this.isFavourite = isFavourite;
+    }
+
+    public FavouriteSong(String filename, Boolean isFavourite) {
+        this.filename = filename;
+        this.isFavourite = isFavourite;
     }
 }

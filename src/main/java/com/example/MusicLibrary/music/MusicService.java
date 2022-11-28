@@ -4,7 +4,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -46,5 +49,11 @@ public class MusicService {
 
     public Stream<Music> getAllSongs() {
         return musicRepository.findAll().stream();
+    }
+
+    @Transactional
+    public void updateMusic(Long id, Boolean isFavourite) {
+        Music music = musicRepository.findById(id).orElseThrow(() -> new IllegalStateException("Song is not present"));
+        music.setIsFavorite(isFavourite);
     }
 }

@@ -8,12 +8,15 @@ public class UploadResponse {
     private String fileType;
     private int size;
 
-    public UploadResponse(Long id, String fileName, String URL, String fileType, int size) {
+    private Boolean isFavourite;
+
+    public UploadResponse(Long id, String fileName, String URL, String fileType, int size, Boolean isFavourite) {
         this.id = id;
         this.fileName = fileName;
         this.URL = URL;
         this.fileType = fileType;
         this.size = size;
+        this.isFavourite = isFavourite;
     }
 
     public Long getId() {
@@ -55,5 +58,14 @@ public class UploadResponse {
     public void setSize(int size) {
         this.size = size;
     }
+
+    public Boolean getFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(Boolean favourite) {
+        isFavourite = favourite;
+    }
+
 
 }

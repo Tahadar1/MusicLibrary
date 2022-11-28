@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/music")
 public class MusicController {
@@ -52,7 +53,8 @@ public class MusicController {
                     music.getFileName(),
                     url,
                     music.getFileType(),
-                    music.getData().length
+                    music.getData().length,
+                    music.getIsFavorite()
             );
         }).collect(Collectors.toList());
 
@@ -72,7 +74,8 @@ public class MusicController {
                 music.getFileName(),
                 url,
                 music.getFileType(),
-                music.getData().length
+                music.getData().length,
+                music.getIsFavorite()
         );
         return ResponseEntity.status(HttpStatus.OK).body(song);
     }
@@ -90,8 +93,13 @@ public class MusicController {
                 music.getFileName(),
                 url,
                 music.getFileType(),
-                music.getData().length
+                music.getData().length,
+                music.getIsFavorite()
         );
         return ResponseEntity.status(HttpStatus.OK).body(song);
+    }
+    @PutMapping("/{music_id}")
+    public void updateMusicFavourite(@PathVariable("music_id") Long id, @RequestParam(required = false) Boolean isFavourite) {
+        musicService.updateMusic(id, isFavourite);
     }
 }

@@ -53,9 +53,13 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
         String token = Jwts.builder().setSubject(authResult.getName())
                 .claim("authorities", authResult.getAuthorities())
-                .setIssuedAt(new Date()).setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(1)))
+                .setIssuedAt(new Date()).setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(1000)))
                 .signWith(secretKey).compact();
 
         response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(
+                "{\"" + jwtConfig.getAuthorizationHeader() + "\":\"" + jwtConfig.getTokenPrefix()+ token + "\"}");
     }
 }

@@ -1,8 +1,12 @@
 package com.example.MusicLibrary.jwt;
 
 import com.google.common.net.HttpHeaders;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import java.net.http.HttpResponse;
+
 
 @ConfigurationProperties(prefix = "application.jwt")
 @Component

@@ -4,13 +4,20 @@ public class UploadFavouriteResponse {
 
     private Long id;
 
+    private Boolean isFavourite;
+
     private String fileName;
     private String url;
 
-    public UploadFavouriteResponse(Long id, String fileName, String url) {
+    public UploadFavouriteResponse(Long id, Boolean isFavourite, String fileName, String url) {
         this.id = id;
+        this.isFavourite = isFavourite;
         this.fileName = fileName;
         this.url = url;
+    }
+
+    public UploadFavouriteResponse(Boolean isFavourite) {
+        this.isFavourite = isFavourite;
     }
 
     public Long getId() {
@@ -35,5 +42,13 @@ public class UploadFavouriteResponse {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Boolean getFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(Boolean favourite) {
+        isFavourite = favourite;
     }
 }
