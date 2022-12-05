@@ -11,8 +11,7 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    //todo test class for this service is to be reviewed and updated.
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
 
@@ -27,16 +26,16 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User with id "+id + " does not exists"));
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User with id " +id+ " does not exists"));
         return user;
     }
-    public void createUser(User user) {
+    public User createUser(User user) {
         Optional<User> optionalUser = userRepository.findByUserName(user.getUserName());
         if(optionalUser.isPresent()){
             throw new IllegalStateException("User with Username "+user.getUserName()+" already exist");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Transactional
@@ -64,10 +63,4 @@ public class UserService {
         }
         userRepository.deleteById(user_id);
     }
-
-    //Todo will try to update user by sending the user body as a parameter
-//    @Transactional
-//    public void updateUserBody(User user) {
-//        User users = userRepository.findById(user.getUser_Id()).orElseThrow(() -> new IllegalStateException("User does not exists"));
-//    }
 }

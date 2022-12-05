@@ -27,8 +27,8 @@ public class UserController {
     }
 
     @PostMapping
-    public void createUser(@RequestBody User user){
-        userService.createUser(user);
+    public User createUser(@RequestBody User user){
+        return userService.createUser(user);
     }
 
     @PutMapping(path = "{user_Id}")
@@ -39,12 +39,6 @@ public class UserController {
             @RequestParam(required = false) String role){
         userService.updateUser(user_Id, userName, password, role);
     }
-//
-//    @PutMapping(path = "/body/{user_Id}")
-//    public void updateUserWithBody(@PathVariable("user_Id") Long id, @RequestBody User user){
-//        userService.updateUserBody(user);
-//
-//    }
 
     @DeleteMapping(path = "{user_Id}")
     public void deleteUser(@PathVariable("user_Id") Long user_Id){

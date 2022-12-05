@@ -15,15 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.crypto.SecretKey;
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -39,7 +32,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         this.secretKey = secretKey;
         this.jwtConfig = jwtConfig;
     }
-
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -59,9 +51,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 //Config for Http Security
+                .cors()
+                .and()
                 .csrf().disable()// Only enable this when the application is used in web browsers
                 //Stateless functionality of Jason Web Token
-                .cors().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 //Filters for Jason Web Token
@@ -83,27 +76,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Role based authentication for Favourite Song
                 .antMatchers(HttpMethod.GET, "/api/v1/music/favourite/all").hasAnyRole("ADMIN","USER")
                 .antMatchers(HttpMethod.GET, "/api/v1/music/favourite/filename/**").hasAnyRole("ADMIN","USER")
-                .antMatchers(HttpMethod.DELETE, "api/v1/music/favourite/id/**").hasAnyRole("ADMIN","USER")
-                .antMatchers(HttpMethod.POST, "api/v1/music/favourite/add/**").hasAnyRole("ADMIN", "USER");
+                .antMatchers(HttpMethod.DELETE, "/api/v1/music/favourite/id/**").hasAnyRole("ADMIN","USER")
+                .antMatchers(HttpMethod.POST, "/api/v1/music/favourite/add/**").hasAnyRole("ADMIN", "USER");
         //super.configure(http);
     }
-//    @Bean
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/login").allowedOrigins("http://localhost:3000");
-//    }
-
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("*"));
-//        configuration.setAllowedMethods(Arrays.asList("*"));
-//        configuration.setAllowedHeaders(Arrays.asList("*"));
-//        configuration.setAllowCredentials(true);
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
